@@ -3,6 +3,7 @@ package setting
 type PushMessageRequest struct {
 	DeviceTokens []string `json:"token"`                  // 设备列表
 	AccessToken  string   `json:"access_token,omitempty"` // 认证token
+	IsSandBox    bool     `json:"isSandbox"`              // IOS沙箱环境[true:推送到沙箱环境,false:推送到正式环境]
 	Message      *Message `json:"message"`                // 消息
 	ExpireTime   string   `json:"expire_time,omitempty"`  // 消息超时时间，必填
 }

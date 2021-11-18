@@ -71,8 +71,8 @@ type AccessTokenReq struct {
 }
 
 type AccessTokenResp struct {
-	AccessToken      string `json:"access_token"`      //返回access_token
-	ExpiresIn        int    `json:"expires_in"`        //单位是秒
+	AccessToken      string `json:"access_token"`      // 返回access_token
+	ExpiresIn        int    `json:"expires_in"`        // 单位是秒
 	Scope            string `json:"scope"`             // access_token访问范围
 	Error            int    `json:"error"`             // 返回错误码
 	ErrorDescription string `json:"error_description"` // 返回错误描述信息

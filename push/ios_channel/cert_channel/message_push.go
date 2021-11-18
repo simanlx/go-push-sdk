@@ -34,11 +34,19 @@ func NewPushClient(conf setting.ConfigIosCert) (setting.PushClientInterface, err
 	if err != nil {
 		return nil, err
 	}
-	return &PushClient{
-		conf:      conf,
-		client:    apns2.NewClient(cert).Production(),
-		clientBox: apns2.NewClient(cert).Development(),
-	}, nil
+	client := &PushClient{
+		conf:   conf,
+		client: apns2.NewClient(cert).Production(),
+	}
+	//测试地址
+	if len(conf.CertPathBox) != 0 {
+		certBox, err := certificate.FromP12File(conf.CertPathBox, conf.PasswordBox)
+		if err != nil {
+			return nil, err
+		}
+		client.clientBox = apns2.NewClient(certBox).Development()
+	}
+	return client, nil
 }
 
 func (p *PushClient) buildRequest(ctx context.Context, pushRequest *setting.PushMessageRequest) (*ios_channel.PushMessageResponse, error) {
@@ -53,7 +61,10 @@ func (p *PushClient) buildRequest(ctx context.Context, pushRequest *setting.Push
 	var (
 		client *apns2.Client
 	)
-	if p.conf.IsSandBox {
+	if pushRequest.IsSandBox {
+		if p.clientBox == nil {
+			return nil, errcode.ErrIosBoxEmpty
+		}
 		client = p.clientBox
 	} else {
 		client = p.client

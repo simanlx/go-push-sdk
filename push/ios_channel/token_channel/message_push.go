@@ -39,11 +39,25 @@ func NewPushClient(conf setting.ConfigIosToken) (setting.PushClientInterface, er
 		KeyID:   conf.KeyId,
 		TeamID:  conf.TeamId,
 	}
-	return &PushClient{
-		conf:      conf,
-		client:    apns2.NewTokenClient(tokenClient).Production(),
-		clientBox: apns2.NewTokenClient(tokenClient).Development(),
-	}, nil
+	client := &PushClient{
+		conf:   conf,
+		client: apns2.NewTokenClient(tokenClient).Production(),
+	}
+
+	if len(conf.SecretFileBox) != 0 {
+		authKeyBox, err := token.AuthKeyFromFile(conf.SecretFile)
+		if err != nil {
+			return nil, err
+		}
+		tokenClientBox := &token.Token{
+			AuthKey: authKeyBox,
+			KeyID:   conf.KeyIdBox,
+			TeamID:  conf.TeamIdBox,
+		}
+		client.clientBox = apns2.NewTokenClient(tokenClientBox).Development()
+	}
+
+	return client, nil
 }
 
 func checkConf(conf setting.ConfigIosToken) error {
@@ -103,7 +117,10 @@ func (p *PushClient) buildRequest(ctx context.Context, pushRequest *setting.Push
 	var (
 		client *apns2.Client
 	)
-	if p.conf.IsSandBox {
+	if pushRequest.IsSandBox {
+		if p.clientBox == nil {
+			return nil, errcode.ErrIosBoxEmpty
+		}
 		client = p.clientBox
 	} else {
 		client = p.client

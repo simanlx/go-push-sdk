@@ -39,6 +39,7 @@ var (
 	ErrHuaweiParseBody         = fmt.Errorf(tempErr, "huawei parse response body error")
 	ErrIosCertPathEmpty        = fmt.Errorf(tempErr, "ios certPath Empty")
 	ErrIosPasswordEmpty        = fmt.Errorf(tempErr, "ios passWord Empty")
+	ErrIosBoxEmpty             = fmt.Errorf(tempErr, "ios Box Empty")
 	ErrIosTeamIdEmpty          = fmt.Errorf(tempErr, "ios teamId Empty")
 	ErrIosKeyIdEmpty           = fmt.Errorf(tempErr, "ios keyId Empty")
 	ErrIosSecretFileEmpty      = fmt.Errorf(tempErr, "ios secretFile Empty")

@@ -53,15 +53,19 @@ type ConfigVivo struct {
 }
 
 type ConfigIosCert struct {
-	IsSandBox bool   `json:"isSandBox"`
-	CertPath  string `json:"certPath"`
-	Password  string `json:"password"`
+	CertPath    string `json:"certPath"`
+	Password    string `json:"password"`
+	CertPathBox string `json:"certPathBox"`
+	PasswordBox string `json:"passwordBox"`
 }
 
 type ConfigIosToken struct {
-	IsSandBox  bool   `json:"isSandBox"`
-	TeamId     string `json:"teamId"`
-	KeyId      string `json:"keyId"`
-	SecretFile string `json:"secretFile"`
-	BundleId   string `json:"bundleId"`
+	TeamId        string `json:"teamId"`
+	KeyId         string `json:"keyId"`
+	SecretFile    string `json:"secretFile"`
+	BundleId      string `json:"bundleId"`
+	TeamIdBox     string `json:"teamIdBox"`
+	KeyIdBox      string `json:"keyIdBox"`
+	SecretFileBox string `json:"secretFileBox"`
+	BundleIdBox   string `json:"bundleIdBox"`
 }

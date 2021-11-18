@@ -9,7 +9,11 @@ import (
 )
 
 func main() {
-	register, err := push.NewRegisterClient("E:\\GoProject\\go-appPush-service\\setting.json")
+	//data := []byte("88a53b2706dbc48cea69554bf3bae2bfc5fd582a6a9c97fd578626d621b63b99")
+	//has := md5.Sum(data)
+	//md5str := fmt.Sprintf("%x", has)
+	//fmt.Println(md5str)
+	register, err := push.NewRegisterClient("E:\\GoProject\\go-push-sdk\\setting.json")
 	if err != nil {
 		fmt.Printf("NewRegisterClient err: %v", err)
 		return
@@ -25,6 +29,7 @@ func main() {
 	msg := &setting.PushMessageRequest{
 		AccessToken:  "",
 		DeviceTokens: deviceTokens,
+		IsSandBox:    true,
 		Message: &setting.Message{
 			BusinessId: uuid.New().String(),
 			Title:      "待办任务提醒-Title",
@@ -39,6 +44,8 @@ func main() {
 			CallbackParam: "",
 		},
 	}
+	//bytes, _ := json.Marshal(msg)
+	//fmt.Println(string(bytes))
 	ctx := context.Background()
 	respPush, err := iosClient.PushNotice(ctx, msg)
 	if err != nil {

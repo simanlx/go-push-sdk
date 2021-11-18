@@ -25,16 +25,16 @@
     "appSecret": "应用秘钥"
   },
   "ios": {
-    "isSandBox": true,
-    "isSandBoxComment": "是否沙盒环境（非正式环境）",
     "certPath": "E:\\GoProject\\go-appPush-service\\dev_push.p12",
-    "certPathComment": "pem格式推送证书绝对路径",
+    "certPathComment": ".p12格式推送证书绝对路径",
     "password": "123456",
-    "passwordComment": "推送证书密码"
+    "passwordComment": "推送证书密码",
+    "certPathBox": "E:\\GoProject\\go-appPush-service\\dev_push.p12",
+    "certPathCommentBox": ".p12格式推送证书绝对路径[沙盒环境]",
+    "passwordBox": "123456",
+    "passwordCommentBox": "推送证书密码[沙盒环境]"
   },
   "ios-token": {
-    "isSandBox": true,
-    "isSandBoxComment": "是否沙盒环境（非正式环境）",
     "teamId": "xxxxx",
     "teamIdComment": "开发者帐号teamId",
     "keyId": "xxxxx",
@@ -42,6 +42,14 @@
     "secretFile": "xxx.p8",
     "secretFileComment": "token认证密钥文件本地绝对路径",
     "bundleId": "com.xxx.xxx",
-    "bundleIdComment": "应用ID"
+    "bundleIdComment": "应用ID",
+    "teamIdBox": "xxxxx",
+    "teamIdCommentBox": "开发者帐号teamId[沙盒环境]",
+    "keyIdBox": "xxxxx",
+    "keyIdCommentBox": "token认证keyId[沙盒环境]",
+    "secretFileBox": "xxx.p8",
+    "secretFileCommentBox": "token认证密钥文件本地绝对路径[沙盒环境]",
+    "bundleIdBox": "com.xxx.xxx",
+    "bundleIdCommentBox": "应用ID[沙盒环境]"
   }
 }
