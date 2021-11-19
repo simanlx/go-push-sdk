@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	// 推荐的配置文件存放路径
+	//DefaultConfFile 推荐的配置文件存放路径
 	DefaultConfFile = "/usr/local/etc/go-push-sdk/setting.json"
 )
 

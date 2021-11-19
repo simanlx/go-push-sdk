@@ -33,13 +33,13 @@ func main() {
 		Message: &setting.Message{
 			BusinessId: uuid.New().String(),
 			Title:      "待办任务提醒-Title",
-			SubTitle:   "您有待办任务哦-SubTitle",
-			Content:    "早上好！新的一天开始了，目前您还有任务需要马上处理~-Content",
+			SubTitle:   "您有待办哦-SubTitle",
+			Content:    "早上好！一天开始了-Content",
 			Sound:      "ios_alarm_sos.mp3",
 			Badge:      1,
 			Extra: map[string]string{
-				"type":        "TodoRemind",
-				"link_type":   "TaskList",
+				"type":        "4",
+				"link_type":   "1",
 				"link_params": "[]",
 			},
 			CallBack:      "",
