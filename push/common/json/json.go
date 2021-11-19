@@ -2,7 +2,7 @@ package json
 
 import (
 	"fmt"
-	"gitee.com/cristiane/go-push-sdk/push/common/convert"
+	"gitee.com/ling-bin/go-push-sdk/push/common/convert"
 	jsoniter "github.com/json-iterator/go"
 )
 

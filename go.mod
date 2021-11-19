@@ -1,4 +1,4 @@
-module gitee.com/cristiane/go-push-sdk
+module gitee.com/ling-bin/go-push-sdk
 
 go 1.13
 

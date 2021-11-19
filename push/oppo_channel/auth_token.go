@@ -4,9 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"gitee.com/cristiane/go-push-sdk/push/common/crypt"
-	"gitee.com/cristiane/go-push-sdk/push/common/http"
-	"gitee.com/cristiane/go-push-sdk/push/errcode"
+	"gitee.com/ling-bin/go-push-sdk/push/common/crypt"
+	"gitee.com/ling-bin/go-push-sdk/push/common/http"
+	"gitee.com/ling-bin/go-push-sdk/push/errcode"
 	"strconv"
 	"time"
 )

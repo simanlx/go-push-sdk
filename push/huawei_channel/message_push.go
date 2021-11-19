@@ -2,12 +2,12 @@ package huawei_channel
 
 import (
 	"context"
-	"gitee.com/cristiane/go-push-sdk/push/common/http"
-	"gitee.com/cristiane/go-push-sdk/push/common/intent"
-	"gitee.com/cristiane/go-push-sdk/push/common/json"
-	"gitee.com/cristiane/go-push-sdk/push/common/message"
-	"gitee.com/cristiane/go-push-sdk/push/errcode"
-	"gitee.com/cristiane/go-push-sdk/push/setting"
+	"gitee.com/ling-bin/go-push-sdk/push/common/http"
+	"gitee.com/ling-bin/go-push-sdk/push/common/intent"
+	"gitee.com/ling-bin/go-push-sdk/push/common/json"
+	"gitee.com/ling-bin/go-push-sdk/push/common/message"
+	"gitee.com/ling-bin/go-push-sdk/push/errcode"
+	"gitee.com/ling-bin/go-push-sdk/push/setting"
 	"net/url"
 	"strconv"
 	"strings"

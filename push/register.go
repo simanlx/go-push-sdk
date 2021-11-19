@@ -1,18 +1,18 @@
 package push
 
 import (
-	"gitee.com/cristiane/go-push-sdk/push/common/convert"
-	"gitee.com/cristiane/go-push-sdk/push/common/file"
-	"gitee.com/cristiane/go-push-sdk/push/common/json"
-	"gitee.com/cristiane/go-push-sdk/push/errcode"
-	"gitee.com/cristiane/go-push-sdk/push/huawei_channel"
-	"gitee.com/cristiane/go-push-sdk/push/ios_channel/cert_channel"
-	"gitee.com/cristiane/go-push-sdk/push/ios_channel/token_channel"
-	"gitee.com/cristiane/go-push-sdk/push/meizu_channel"
-	"gitee.com/cristiane/go-push-sdk/push/oppo_channel"
-	"gitee.com/cristiane/go-push-sdk/push/setting"
-	"gitee.com/cristiane/go-push-sdk/push/vivo_channel"
-	"gitee.com/cristiane/go-push-sdk/push/xiaomi_channel"
+	"gitee.com/ling-bin/go-push-sdk/push/common/convert"
+	"gitee.com/ling-bin/go-push-sdk/push/common/file"
+	"gitee.com/ling-bin/go-push-sdk/push/common/json"
+	"gitee.com/ling-bin/go-push-sdk/push/errcode"
+	"gitee.com/ling-bin/go-push-sdk/push/huawei_channel"
+	"gitee.com/ling-bin/go-push-sdk/push/ios_channel/cert_channel"
+	"gitee.com/ling-bin/go-push-sdk/push/ios_channel/token_channel"
+	"gitee.com/ling-bin/go-push-sdk/push/meizu_channel"
+	"gitee.com/ling-bin/go-push-sdk/push/oppo_channel"
+	"gitee.com/ling-bin/go-push-sdk/push/setting"
+	"gitee.com/ling-bin/go-push-sdk/push/vivo_channel"
+	"gitee.com/ling-bin/go-push-sdk/push/xiaomi_channel"
 )
 
 const (

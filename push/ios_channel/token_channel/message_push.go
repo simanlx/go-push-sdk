@@ -3,11 +3,11 @@ package token_channel
 import (
 	"context"
 	"fmt"
-	"gitee.com/cristiane/go-push-sdk/push/common/convert"
-	"gitee.com/cristiane/go-push-sdk/push/common/message"
-	"gitee.com/cristiane/go-push-sdk/push/errcode"
-	"gitee.com/cristiane/go-push-sdk/push/ios_channel"
-	"gitee.com/cristiane/go-push-sdk/push/setting"
+	"gitee.com/ling-bin/go-push-sdk/push/common/convert"
+	"gitee.com/ling-bin/go-push-sdk/push/common/message"
+	"gitee.com/ling-bin/go-push-sdk/push/errcode"
+	"gitee.com/ling-bin/go-push-sdk/push/ios_channel"
+	"gitee.com/ling-bin/go-push-sdk/push/setting"
 	"strings"
 
 	"github.com/sideshow/apns2"
