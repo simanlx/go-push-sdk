@@ -103,10 +103,8 @@ func (p *PushClient) pushNotice(ctx context.Context, pushRequest *setting.PushMe
 }
 
 func (p *PushClient) buildRequest(ctx context.Context, pushRequest *setting.PushMessageRequest) (*ios_channel.PushMessageResponse, error) {
-
 	payloadStr := fmt.Sprintf(ios_channel.PayloadTemplate, pushRequest.Message.Title, pushRequest.Message.SubTitle, pushRequest.Message.Content,
-		pushRequest.Message.Extra)
-
+			pushRequest.Message.Badge,pushRequest.Message.Sound,pushRequest.Message.Extra)
 	notification := &apns2.Notification{
 		CollapseID:  pushRequest.Message.BusinessId,
 		ApnsID:      pushRequest.Message.BusinessId,

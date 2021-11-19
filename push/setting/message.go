@@ -13,6 +13,8 @@ type Message struct {
 	Title         string            `json:"title"`         // 标题，建议不超过10个汉字
 	SubTitle      string            `json:"subTitle"`      // 副标题，建议不超过10个汉字
 	Content       string            `json:"content"`       // 内容，建议不超过20个汉字
+	Sound         string            `json:"sound"`         // IOS语语音
+	Badge         int               `json:"badge"`         // 应用角标数字[ios和安卓可以使用]
 	Extra         map[string]string `json:"extra"`         // 自定义消息。只支持一维
 	CallBack      string            `json:"callback"`      // 送达回执地址，供推送厂商调用，最大128字节
 	CallbackParam string            `json:"callbackParam"` // 自定义回执参数

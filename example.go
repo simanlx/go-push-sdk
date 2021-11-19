@@ -35,6 +35,8 @@ func main() {
 			Title:      "待办任务提醒-Title",
 			SubTitle:   "您有待办任务哦-SubTitle",
 			Content:    "早上好！新的一天开始了，目前您还有任务需要马上处理~-Content",
+			Sound:      "ios_alarm_sos.mp3",
+			Badge:      1,
 			Extra: map[string]string{
 				"type":        "TodoRemind",
 				"link_type":   "TaskList",
