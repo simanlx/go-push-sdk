@@ -28,11 +28,11 @@ const (
 
 type PushClient struct {
 	httpClient *http.Client
-	conf       setting.ConfigOppo
+	conf       *setting.ConfigOppo
 	authClient *AuthToken
 }
 
-func NewPushClient(conf setting.ConfigOppo) (setting.PushClientInterface, error) {
+func NewPushClient(conf *setting.ConfigOppo) (setting.PushClientInterface, error) {
 	errCheck := checkConf(conf)
 	if errCheck != nil {
 		return nil, errCheck
@@ -44,7 +44,7 @@ func NewPushClient(conf setting.ConfigOppo) (setting.PushClientInterface, error)
 	}, nil
 }
 
-func checkConf(conf setting.ConfigOppo) error {
+func checkConf(conf *setting.ConfigOppo) error {
 	if conf.AppPkgName == "" {
 		return errcode.ErrOppoAppPkgNameEmpty
 	}

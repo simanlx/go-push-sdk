@@ -18,11 +18,12 @@ func main() {
 		fmt.Printf("NewRegisterClient err: %v", err)
 		return
 	}
-	iosClient, err := register.GetIosCertClient()
+	iosClient, err := register.GetPlatformClient("ios")
 	if err != nil {
 		fmt.Printf("GetIosClient err: %v", err)
 		return
 	}
+	_,_ =register.GetIosCertClient()
 	var deviceTokens = []string{
 		"88a53b2706dbc48cea69554bf3bae2bfc5fd582a6a9c97fd578626d621b63b99",
 	}
@@ -56,3 +57,60 @@ func main() {
 	}
 	fmt.Printf("ios push resp: %+v", respPush)
 }
+/*
+	register, err := push.NewRegisterClientMap(map[string]map[string]string{
+			"huawei": {
+				"appPkgName": "应用包名",
+				"clientId": "用户在联盟申请的APPID",
+				"clientSecret": "应用ID对应的秘钥",
+			},
+			"meizu": {
+				"appPkgName": "应用包名",
+				"appId": "应用ID",
+				"appSecret": "应用秘钥",
+			},
+			"xiaomi": {
+				"appPkgName": "应用包名",
+				"appSecret": "应用秘钥",
+			},
+			"oppo": {
+				"appPkgName": "应用包名",
+				"appKey": "应用key",
+				"masterSecret": "主秘钥",
+			},
+			"vivo": {
+				"appPkgName": "应用包名",
+				"appId": "应用ID",
+				"appKey": "应用key",
+				"appSecret": "应用秘钥",
+			},
+			"ios": {
+				"certPath": "E:\\GoProject\\dev_push.p12",
+				"certPathComment": ".p12格式推送证书绝对路径",
+				"password": "123456",
+				"passwordComment": "推送证书密码",
+				"certPathBox": "E:\\GoProject\\dev_push.p12",
+				"certPathCommentBox": ".p12格式推送证书绝对路径[沙盒环境]",
+				"passwordBox": "123456",
+				"passwordCommentBox": "推送证书密码[沙盒环境]",
+			},
+			"ios-token": {
+				"teamId": "xxxxx",
+				"teamIdComment": "开发者帐号teamId",
+				"keyId": "xxxxx",
+				"keyIdComment": "token认证keyId",
+				"secretFile": "xxx.p8",
+				"secretFileComment": "token认证密钥文件本地绝对路径",
+				"bundleId": "com.xxx.xxx",
+				"bundleIdComment": "应用ID",
+				"teamIdBox": "xxxxx",
+				"teamIdCommentBox": "开发者帐号teamId[沙盒环境]",
+				"keyIdBox": "xxxxx",
+				"keyIdCommentBox": "token认证keyId[沙盒环境]",
+				"secretFileBox": "xxx.p8",
+				"secretFileCommentBox": "token认证密钥文件本地绝对路径[沙盒环境]",
+				"bundleIdBox": "com.xxx.xxx",
+				"bundleIdCommentBox": "应用ID[沙盒环境]",
+			},
+	})
+*/

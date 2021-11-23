@@ -27,10 +27,10 @@ const (
 
 type PushClient struct {
 	httpClient *http.Client
-	conf       setting.ConfigXiaomi
+	conf       *setting.ConfigXiaomi
 }
 
-func NewPushClient(conf setting.ConfigXiaomi) (setting.PushClientInterface, error) {
+func NewPushClient(conf *setting.ConfigXiaomi) (setting.PushClientInterface, error) {
 	errCheck := checkConf(conf)
 	if errCheck != nil {
 		return nil, errCheck
@@ -41,7 +41,7 @@ func NewPushClient(conf setting.ConfigXiaomi) (setting.PushClientInterface, erro
 	}, nil
 }
 
-func checkConf(conf setting.ConfigXiaomi) error {
+func checkConf(conf *setting.ConfigXiaomi) error {
 	if conf.AppPkgName == "" {
 		return errcode.ErrXiaomiAppPkgNameEmpty
 	}

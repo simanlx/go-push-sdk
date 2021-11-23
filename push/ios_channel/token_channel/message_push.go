@@ -20,12 +20,12 @@ const (
 )
 
 type PushClient struct {
-	conf      setting.ConfigIosToken
+	conf      *setting.ConfigIosToken
 	client    *apns2.Client //正式环境
 	clientBox *apns2.Client //沙盒环境
 }
 
-func NewPushClient(conf setting.ConfigIosToken) (setting.PushClientInterface, error) {
+func NewPushClient(conf *setting.ConfigIosToken) (setting.PushClientInterface, error) {
 	errCheck := checkConf(conf)
 	if errCheck != nil {
 		return nil, errCheck
@@ -60,7 +60,7 @@ func NewPushClient(conf setting.ConfigIosToken) (setting.PushClientInterface, er
 	return client, nil
 }
 
-func checkConf(conf setting.ConfigIosToken) error {
+func checkConf(conf *setting.ConfigIosToken) error {
 	if conf.TeamId == "" {
 		return errcode.ErrIosTeamIdEmpty
 	}

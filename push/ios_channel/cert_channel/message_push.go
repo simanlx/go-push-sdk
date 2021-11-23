@@ -20,12 +20,12 @@ const (
 )
 
 type PushClient struct {
-	conf      setting.ConfigIosCert
+	conf      *setting.ConfigIosCert
 	client    *apns2.Client //正式环境
 	clientBox *apns2.Client //沙盒环境
 }
 
-func NewPushClient(conf setting.ConfigIosCert) (setting.PushClientInterface, error) {
+func NewPushClient(conf *setting.ConfigIosCert) (setting.PushClientInterface, error) {
 	errCheck := checkConf(conf)
 	if errCheck != nil {
 		return nil, errCheck
@@ -80,7 +80,7 @@ func (p *PushClient) buildRequest(ctx context.Context, pushRequest *setting.Push
 	}, nil
 }
 
-func checkConf(conf setting.ConfigIosCert) error {
+func checkConf(conf *setting.ConfigIosCert) error {
 	if conf.CertPath == "" {
 		return errcode.ErrIosCertPathEmpty
 	}

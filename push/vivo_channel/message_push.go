@@ -24,11 +24,11 @@ const (
 
 type PushClient struct {
 	httpClient *http.Client
-	conf       setting.ConfigVivo
+	conf       *setting.ConfigVivo
 	authClient *AuthToken
 }
 
-func NewPushClient(conf setting.ConfigVivo) (setting.PushClientInterface, error) {
+func NewPushClient(conf *setting.ConfigVivo) (setting.PushClientInterface, error) {
 	errCheck := checkConf(conf)
 	if errCheck != nil {
 		return nil, errCheck
@@ -40,7 +40,7 @@ func NewPushClient(conf setting.ConfigVivo) (setting.PushClientInterface, error)
 	}, nil
 }
 
-func checkConf(conf setting.ConfigVivo) error {
+func checkConf(conf *setting.ConfigVivo) error {
 	if conf.AppPkgName == "" {
 		return errcode.ErrVivoAppPkgNameEmpty
 	}

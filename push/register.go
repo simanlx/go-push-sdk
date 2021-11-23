@@ -13,6 +13,7 @@ import (
 	"gitee.com/ling-bin/go-push-sdk/push/setting"
 	"gitee.com/ling-bin/go-push-sdk/push/vivo_channel"
 	"gitee.com/ling-bin/go-push-sdk/push/xiaomi_channel"
+	"sync"
 )
 
 const (
@@ -20,8 +21,10 @@ const (
 	DefaultConfFile = "/usr/local/etc/go-push-sdk/setting.json"
 )
 
+//RegisterClient  厂商客户端连接
 type RegisterClient struct {
-	cfg interface{}
+	cfg    interface{} //配置
+	client sync.Map    //连接客户端
 }
 
 func NewRegisterClient(configFilePath string) (*RegisterClient, error) {
@@ -33,7 +36,14 @@ func NewRegisterClient(configFilePath string) (*RegisterClient, error) {
 	if err != nil {
 		return nil, errcode.ErrParseConfigFile
 	}
+	return NewRegisterClientWithConf(convert.Byte2Str(jsonByte), "")
+}
 
+func NewRegisterClientMap(configMap map[string]map[string]string) (*RegisterClient, error) {
+	jsonByte,err:= json.Marshal(configMap)
+	if  err != nil{
+		return nil, err
+	}
 	return NewRegisterClientWithConf(convert.Byte2Str(jsonByte), "")
 }
 
@@ -45,7 +55,6 @@ func newRegisterClient(cfgJson string, obj interface{}) (*RegisterClient, error)
 	if err != nil {
 		return nil, errcode.ErrParseConfigFile
 	}
-
 	return &RegisterClient{
 		cfg: obj,
 	}, nil
@@ -95,51 +104,114 @@ func (r *RegisterClient) GetPlatformClient(platform setting.PlatformType) (setti
 	}
 }
 
-func (r *RegisterClient) GetHUAWEIClient() (setting.PushClientInterface, error) {
+func (r *RegisterClient) GetHUAWEIClient() (client setting.PushClientInterface, err error) {
+	value, ok := r.client.Load(setting.HuaweiPlatform)
+	if ok {
+		return value.(*huawei_channel.PushClient), nil
+	}
 	if conf, ok := r.cfg.(*setting.ConfigHuawei); ok {
-		return huawei_channel.NewPushClient(*conf)
+		client, err = huawei_channel.NewPushClient(conf)
+	} else {
+		client, err = huawei_channel.NewPushClient(&r.cfg.(*setting.PushConfig).ConfigHuawei)
 	}
-	return huawei_channel.NewPushClient(r.cfg.(*setting.PushConfig).ConfigHuawei)
+	if err == nil {
+		r.client.Store(setting.HuaweiPlatform, client)
+	}
+	return client, err
 }
 
-func (r *RegisterClient) GetMEIZUClient() (setting.PushClientInterface, error) {
+func (r *RegisterClient) GetMEIZUClient() (client setting.PushClientInterface, err error) {
+	value, ok := r.client.Load(setting.MeizuPlatform)
+	if ok {
+		return value.(*meizu_channel.PushClient), nil
+	}
 	if conf, ok := r.cfg.(*setting.ConfigMeizu); ok {
-		return meizu_channel.NewPushClient(*conf)
+		client, err = meizu_channel.NewPushClient(conf)
+	}else {
+		client, err = meizu_channel.NewPushClient(&r.cfg.(*setting.PushConfig).ConfigMeizu)
 	}
-	return meizu_channel.NewPushClient(r.cfg.(*setting.PushConfig).ConfigMeizu)
+	if err == nil {
+		r.client.Store(setting.MeizuPlatform, client)
+	}
+	return client, err
 }
 
-func (r *RegisterClient) GetXIAOMIClient() (setting.PushClientInterface, error) {
+func (r *RegisterClient) GetXIAOMIClient() (client setting.PushClientInterface, err error) {
+	value, ok := r.client.Load(setting.XiaomiPlatform)
+	if ok {
+		return value.(*xiaomi_channel.PushClient), nil
+	}
 	if conf, ok := r.cfg.(*setting.ConfigXiaomi); ok {
-		return xiaomi_channel.NewPushClient(*conf)
+		client,err = xiaomi_channel.NewPushClient(conf)
+	}else {
+		client, err = xiaomi_channel.NewPushClient(&r.cfg.(*setting.PushConfig).ConfigXiaomi)
 	}
-	return xiaomi_channel.NewPushClient(r.cfg.(*setting.PushConfig).ConfigXiaomi)
+	if err == nil {
+		r.client.Store(setting.XiaomiPlatform, client)
+	}
+	return client,err
 }
 
-func (r *RegisterClient) GetOPPOClient() (setting.PushClientInterface, error) {
+func (r *RegisterClient) GetOPPOClient() (client setting.PushClientInterface, err error) {
+	value, ok := r.client.Load(setting.OppoPlatform)
+	if ok {
+		return value.(*oppo_channel.PushClient), nil
+	}
 	if conf, ok := r.cfg.(*setting.ConfigOppo); ok {
-		return oppo_channel.NewPushClient(*conf)
+		client, err = oppo_channel.NewPushClient(conf)
+	}else {
+		client, err = oppo_channel.NewPushClient(&r.cfg.(*setting.PushConfig).ConfigOppo)
 	}
-	return oppo_channel.NewPushClient(r.cfg.(*setting.PushConfig).ConfigOppo)
+	if err == nil {
+		r.client.Store(setting.OppoPlatform, client)
+	}
+	return client,err
 }
 
-func (r *RegisterClient) GetVIVOClient() (setting.PushClientInterface, error) {
+func (r *RegisterClient) GetVIVOClient() (client setting.PushClientInterface, err error) {
+	value, ok := r.client.Load(setting.VivoPlatform)
+	if ok {
+		return value.(*vivo_channel.PushClient), nil
+	}
 	if conf, ok := r.cfg.(*setting.ConfigVivo); ok {
-		return vivo_channel.NewPushClient(*conf)
+		client, err = vivo_channel.NewPushClient(conf)
+	}else {
+		client, err = vivo_channel.NewPushClient(&r.cfg.(*setting.PushConfig).ConfigVivo)
 	}
-	return vivo_channel.NewPushClient(r.cfg.(*setting.PushConfig).ConfigVivo)
+	if err == nil {
+		r.client.Store(setting.VivoPlatform, client)
+	}
+	return client,err
 }
 
-func (r *RegisterClient) GetIosCertClient() (setting.PushClientInterface, error) {
+func (r *RegisterClient) GetIosCertClient() (client setting.PushClientInterface, err error)  {
+	value, ok := r.client.Load(setting.IosCertPlatform)
+	if ok {
+		return value.(*cert_channel.PushClient), nil
+	}
 	if conf, ok := r.cfg.(*setting.ConfigIosCert); ok {
-		return cert_channel.NewPushClient(*conf)
+		client, err = cert_channel.NewPushClient(conf)
+	}else {
+		client, err = cert_channel.NewPushClient(&r.cfg.(*setting.PushConfig).ConfigIosCert)
 	}
-	return cert_channel.NewPushClient(r.cfg.(*setting.PushConfig).ConfigIosCert)
+	if err == nil {
+		r.client.Store(setting.IosCertPlatform, client)
+	}
+	return client,err
 }
 
-func (r *RegisterClient) GetIosTokenClient() (setting.PushClientInterface, error) {
-	if conf, ok := r.cfg.(*setting.ConfigIosToken); ok {
-		return token_channel.NewPushClient(*conf)
+func (r *RegisterClient) GetIosTokenClient() (client setting.PushClientInterface, err error) {
+	value, ok := r.client.Load(setting.IosTokenPlatform)
+	if ok {
+		return value.(*token_channel.PushClient), nil
 	}
-	return token_channel.NewPushClient(r.cfg.(*setting.PushConfig).ConfigIosToken)
+	if conf, ok := r.cfg.(*setting.ConfigIosToken); ok {
+		client, err = token_channel.NewPushClient(conf)
+	}else {
+		client, err = token_channel.NewPushClient(&r.cfg.(*setting.PushConfig).ConfigIosToken)
+	}
+	if err == nil {
+		r.client.Store(setting.IosTokenPlatform, client)
+	}
+	return client,err
 }
