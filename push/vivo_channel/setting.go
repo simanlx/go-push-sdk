@@ -3,6 +3,15 @@ package vivo_channel
 type PushMessageRequest struct {
 }
 
+//PushMessageResponse vivo手机
+//{
+//  "desc": "请求成功",
+//  "invalid_users": null,
+//  "request_id": "ab-7h-98-io8",
+//  "result": 0,
+//  "success": true,
+//  "task_id": ""
+//}
 type PushMessageResponse struct {
 	Result       int         `json:"result"`    // 0 表示成功，非0失败
 	Desc         string      `json:"desc"`      // 文字描述接口调用情况
@@ -61,6 +70,13 @@ type AuthTokenReq struct {
 	Timestamp string `json:"timestamp"`
 }
 
+// AuthTokenResp vivo
+//{
+//  "auth_token": "aa05871a-dd0b-4ab1-a303-b4e8177fb2e1",
+//  "desc": "请求成功",
+//  "result": 0,
+//  "success": true
+//}
 type AuthTokenResp struct {
 	Result    int    `json:"result"`    // 0 成功，非0失败
 	Desc      string `json:"desc"`      // 文字描述接口调用情况

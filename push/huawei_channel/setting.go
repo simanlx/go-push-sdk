@@ -9,6 +9,14 @@ type PushMessageRequest struct {
 	PayLoad         *PayLoad `json:"payload,omitempty"`     // 描述投递消息JSON结构体,必填
 }
 
+// PushMessageResponse 华为
+//{
+//  "code": "80000000",
+//  "msg": "Success",
+//  "reason": "",
+//  "requestId": "156222523472361878003501",
+//  "success": true
+//}
 type PushMessageResponse struct {
 	Code      string `json:"code"`
 	Msg       string `json:"msg"`

@@ -28,6 +28,13 @@ type BroadcastPush struct {
 	AuthToken   string `json:"auth_token"`
 }
 
+//PushMessageResponse oppo手机
+//{
+//  "code": 0,
+//  "data": "{\"auth_token\":\"4e85a703-1636-444d-a3a2-c26abb2b1ffb\",\"create_time\":1562207540879}",
+//  "message": "Success",
+//  "success": true
+//}
 type PushMessageResponse struct {
 	Code    int              `json:"code"`
 	Message string           `json:"message"`
@@ -57,6 +64,13 @@ type AuthTokenReq struct {
 	MasterSecret string `json:"master_secret"`
 }
 
+//AuthTokenResp oppo手机 token
+//{
+//  "code": 0,
+//  "data": "{\"auth_token\":\"4e85a703-1636-444d-a3a2-c26abb2b1ffb\",\"create_time\":1562207540879}",
+//  "message": "Success",
+//  "success": true
+//}
 type AuthTokenResp struct {
 	Code    int            `json:"code"`
 	Message string         `json:"message"`

@@ -1,16 +1,16 @@
 {
   "huawei": {
     "appPkgName": "应用包名",
-    "clientId": "用户在联盟申请的APPID",
-    "clientSecret": "应用ID对应的秘钥"
+    "clientId": "应用ID",
+    "clientSecret": "应用秘钥"
+  },
+  "xiaomi": {
+    "appPkgName": "应用包名",
+    "appSecret": "应用秘钥"
   },
   "meizu": {
     "appPkgName": "应用包名",
     "appId": "应用ID",
-    "appSecret": "应用秘钥"
-  },
-  "xiaomi": {
-    "appPkgName": "应用包名",
     "appSecret": "应用秘钥"
   },
   "oppo": {
@@ -25,11 +25,11 @@
     "appSecret": "应用秘钥"
   },
   "ios": {
-    "certPath": "E:\\GoProject\\dev_push.p12",
+    "certPath": "E:\\Project\\dev_push.p12",
     "certPathComment": ".p12格式推送证书绝对路径",
     "password": "123456",
     "passwordComment": "推送证书密码",
-    "certPathBox": "E:\\GoProject\\dev_push.p12",
+    "certPathBox": "E:\\Project\\dev_push.p12",
     "certPathCommentBox": ".p12格式推送证书绝对路径[沙盒环境]",
     "passwordBox": "123456",
     "passwordCommentBox": "推送证书密码[沙盒环境]"

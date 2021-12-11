@@ -15,6 +15,18 @@ type Extra struct {
 	IntentUri    string `json:"extra.intent_uri"`
 }
 
+//PushMessageResponse 小米
+//{
+//  "code": 0,
+//  "data": {
+//    "id": "sdm00940562225761669wO"
+//  },
+//  "description": "成功",
+//  "info": "Received push messages for 1 REGID",
+//  "reason": "",
+//  "result": "ok",
+//  "success": true
+//}
 type PushMessageResponse struct {
 	Result      string            `json:"result"`      // "ok" 表示成功
 	Description string            `json:"description"` // 对发送消息失败原因的解释

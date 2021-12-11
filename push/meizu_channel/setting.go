@@ -28,6 +28,19 @@ type NoticeBarInfo struct {
 	Content string `json:"content"`
 }
 
+//PushMessageResponse  魅族
+//{
+//  "code": "200",
+//  "message": "",
+//  "msgId": "NS20190704153256153_0_11579908_1_3",
+//  "redirect": "",
+//  "success": true,
+//  "value": {
+//    "110002": [
+//      "ULY6c596e6a7d5b714a475a60527c6b5f7f655a6d6370"
+//    ]
+//  }
+//}
 type PushMessageResponse struct {
 	Code     string                 `json:"code"`     // 必选,返回码
 	Message  string                 `json:"message"`  //可选，返回消息，网页端接口出现错误时使用此消息展示给用户，手机端可忽略此消息，甚至服务端不传输此消息
