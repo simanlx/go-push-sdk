@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"gitee.com/ling-bin/go-push-sdk/push/common/convert"
+	"gitee.com/ling-bin/go-push-sdk/push/common/json"
 	"gitee.com/ling-bin/go-push-sdk/push/common/message"
 	"gitee.com/ling-bin/go-push-sdk/push/errcode"
 	"gitee.com/ling-bin/go-push-sdk/push/ios_channel"
@@ -50,8 +51,9 @@ func NewPushClient(conf *setting.ConfigIosCert) (setting.PushClientInterface, er
 }
 
 func (p *PushClient) buildRequest(ctx context.Context, pushRequest *setting.PushMessageRequest) (*ios_channel.PushMessageResponse, error) {
+	bodyJson, _ := json.MarshalToString(pushRequest.Message.Extra)
 	payloadStr := fmt.Sprintf(ios_channel.PayloadTemplate, pushRequest.Message.Title, pushRequest.Message.SubTitle, pushRequest.Message.Content,
-		pushRequest.Message.Badge,pushRequest.Message.Sound,pushRequest.Message.Extra)
+		pushRequest.Message.Badge, pushRequest.Message.Sound, bodyJson)
 	notification := &apns2.Notification{
 		DeviceToken: strings.Join(pushRequest.DeviceTokens, ","),
 		ApnsID:      pushRequest.Message.BusinessId,
