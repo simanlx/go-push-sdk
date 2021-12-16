@@ -25,11 +25,11 @@
     "appSecret": "应用秘钥"
   },
   "ios": {
-    "certPath": "E:\\Project\\dev_push.p12",
+    "certPath": "E:\\goProject\\dev_push.p12",
     "certPathComment": ".p12格式推送证书绝对路径",
     "password": "123456",
     "passwordComment": "推送证书密码",
-    "certPathBox": "E:\\Project\\dev_push.p12",
+    "certPathBox": "E:\\goProject\\dev_push.p12",
     "certPathCommentBox": ".p12格式推送证书绝对路径[沙盒环境]",
     "passwordBox": "123456",
     "passwordCommentBox": "推送证书密码[沙盒环境]"

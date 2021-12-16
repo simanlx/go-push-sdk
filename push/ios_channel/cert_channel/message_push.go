@@ -2,7 +2,6 @@ package cert_channel
 
 import (
 	"context"
-	"fmt"
 	"gitee.com/ling-bin/go-push-sdk/push/common/convert"
 	"gitee.com/ling-bin/go-push-sdk/push/common/json"
 	"gitee.com/ling-bin/go-push-sdk/push/common/message"
@@ -51,14 +50,26 @@ func NewPushClient(conf *setting.ConfigIosCert) (setting.PushClientInterface, er
 }
 
 func (p *PushClient) buildRequest(ctx context.Context, pushRequest *setting.PushMessageRequest) (*ios_channel.PushMessageResponse, error) {
-	bodyJson, _ := json.MarshalToString(pushRequest.Message.Extra)
-	payloadStr := fmt.Sprintf(ios_channel.PayloadTemplate, pushRequest.Message.Title, pushRequest.Message.SubTitle, pushRequest.Message.Content,
-		pushRequest.Message.Badge, pushRequest.Message.Sound, bodyJson)
+	//payloadStr := fmt.Sprintf(ios_channel.PayloadTemplate, pushRequest.Message.Title, pushRequest.Message.SubTitle, pushRequest.Message.Content,
+	//	pushRequest.Message.Badge, pushRequest.Message.Sound, "")
+	pushPayload := &ios_channel.PushPayload{
+		Aps: ios_channel.ApsData{
+			ContentAvailable: 1,
+			Alert: ios_channel.AlertData{
+				Title:    pushRequest.Message.Title,
+				Subtitle: pushRequest.Message.SubTitle,
+				Body:     pushRequest.Message.Content,
+			},
+			Badge: pushRequest.Message.Badge,
+			Sound: pushRequest.Message.Sound,
+		},
+		Body: json.MarshalToStringNoError(pushRequest.Message.Extra),
+	}
 	notification := &apns2.Notification{
 		DeviceToken: strings.Join(pushRequest.DeviceTokens, ","),
 		ApnsID:      pushRequest.Message.BusinessId,
 		CollapseID:  pushRequest.Message.BusinessId,
-		Payload:     convert.Str2Byte(payloadStr),
+		Payload:     convert.Str2Byte(json.MarshalToStringNoError(pushPayload)),
 	}
 	var (
 		client *apns2.Client
