@@ -133,7 +133,7 @@ func ios()  {
 	}
 	_,_ =register.GetIosCertClient()
 	var deviceTokens = []string{
-		"88a53b2706dbc48cea69554bf3bae2bfc5fd582a6a9c97fd578626d621b63b99",
+		"da4d309d0d1153105442db4ff13e2ee678336632479f7ef32da377f072a70d81",
 	}
 	msg := &setting.PushMessageRequest{
 		AccessToken:  "",

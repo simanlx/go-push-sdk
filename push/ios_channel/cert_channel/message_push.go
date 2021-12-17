@@ -2,6 +2,7 @@ package cert_channel
 
 import (
 	"context"
+	"crypto/tls"
 	"gitee.com/ling-bin/go-push-sdk/push/common/convert"
 	"gitee.com/ling-bin/go-push-sdk/push/common/json"
 	"gitee.com/ling-bin/go-push-sdk/push/common/message"
@@ -22,7 +23,9 @@ const (
 type PushClient struct {
 	conf      *setting.ConfigIosCert
 	client    *apns2.Client //正式环境
+	topic     string        //正式环境里的证书topic
 	clientBox *apns2.Client //沙盒环境
+	topicBox  string        //沙盒环境里的证书topic
 }
 
 func NewPushClient(conf *setting.ConfigIosCert) (setting.PushClientInterface, error) {
@@ -38,6 +41,7 @@ func NewPushClient(conf *setting.ConfigIosCert) (setting.PushClientInterface, er
 		conf:   conf,
 		client: apns2.NewClient(cert).Production(),
 	}
+	client.topic = client.TopicFromCert(cert)
 	//测试地址
 	if len(conf.CertPathBox) != 0 {
 		certBox, err := certificate.FromP12File(conf.CertPathBox, conf.PasswordBox)
@@ -45,8 +49,20 @@ func NewPushClient(conf *setting.ConfigIosCert) (setting.PushClientInterface, er
 			return nil, err
 		}
 		client.clientBox = apns2.NewClient(certBox).Development()
+		client.topicBox = client.TopicFromCert(certBox)
 	}
 	return client, nil
+}
+
+// TopicFromCert extracts topic from a certificate's common name.
+func (p *PushClient) TopicFromCert(cert tls.Certificate) string {
+	commonName := cert.Leaf.Subject.CommonName
+	var topic string
+	n := strings.Index(commonName, ":")
+	if n != -1 {
+		topic = strings.TrimSpace(commonName[n+1:])
+	}
+	return topic
 }
 
 func (p *PushClient) buildRequest(ctx context.Context, pushRequest *setting.PushMessageRequest) (*ios_channel.PushMessageResponse, error) {
@@ -65,22 +81,24 @@ func (p *PushClient) buildRequest(ctx context.Context, pushRequest *setting.Push
 		},
 		Body: json.MarshalToStringNoError(pushRequest.Message.Extra),
 	}
+	var (
+		client *apns2.Client
+	)
 	notification := &apns2.Notification{
 		DeviceToken: strings.Join(pushRequest.DeviceTokens, ","),
 		ApnsID:      pushRequest.Message.BusinessId,
 		CollapseID:  pushRequest.Message.BusinessId,
 		Payload:     convert.Str2Byte(json.MarshalToStringNoError(pushPayload)),
 	}
-	var (
-		client *apns2.Client
-	)
 	if pushRequest.IsSandBox {
 		if p.clientBox == nil {
 			return nil, errcode.ErrIosBoxEmpty
 		}
 		client = p.clientBox
+		notification.Topic = p.topicBox
 	} else {
 		client = p.client
+		notification.Topic = p.topic
 	}
 	res, err := client.PushWithContext(ctx, notification)
 	if err != nil {
