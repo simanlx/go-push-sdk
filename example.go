@@ -121,7 +121,7 @@ func ios()  {
 	//has := md5.Sum(data)
 	//md5str := fmt.Sprintf("%x", has)
 	//fmt.Println(md5str)
-	register, err := push.NewRegisterClient("E:\\GoProject\\go-push-sdk\\setting.json")
+	register, err := push.NewRegisterClient("D:\\Project\\GoProject\\go-push-sdk\\setting.json")
 	if err != nil {
 		fmt.Printf("NewRegisterClient err: %v", err)
 		return
