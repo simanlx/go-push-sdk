@@ -52,7 +52,6 @@ func NewPushClient(conf *setting.ConfigIosCert) (setting.PushClientInterface, er
 		}
 		client.clientBox = apns2.NewClient(certBox).Development()
 		client.topicBox = client.TopicFromCert(certBox)
-
 	}
 	return client, nil
 }
@@ -71,6 +70,25 @@ func (p *PushClient) TopicFromCert(cert tls.Certificate) string {
 func (p *PushClient) buildRequest(ctx context.Context, pushRequest *setting.PushMessageRequest) (*ios_channel.PushMessageResponse, error) {
 	//payloadStr := fmt.Sprintf(ios_channel.PayloadTemplate, pushRequest.Message.Title, pushRequest.Message.SubTitle, pushRequest.Message.Content,
 	//	pushRequest.Message.Badge, pushRequest.Message.Sound, "")
+	var (
+		client *apns2.Client
+	)
+	if pushRequest.IsSandBox {
+		if p.clientBox == nil {
+			return nil, errcode.ErrIosBoxEmpty
+		}
+		client = p.clientBox
+		//证书过期判断，如果是过期证书则不推送，2023-03-04
+		if time.Now().UTC().Sub(client.Certificate.Leaf.NotAfter).Seconds() >= 0 {
+			return nil,errcode.ErrIosBoxNotAfter
+		}
+	} else {
+		client = p.client
+		//证书过期判断，如果是过期证书则不推送，2023-03-04
+		if time.Now().UTC().Sub(client.Certificate.Leaf.NotAfter).Seconds() >= 0 {
+			return nil, errcode.ErrIosNotAfter
+		}
+	}
 	pushPayload := &ios_channel.PushPayload{
 		Aps: ios_channel.ApsData{
 			ContentAvailable: 1,
@@ -84,9 +102,6 @@ func (p *PushClient) buildRequest(ctx context.Context, pushRequest *setting.Push
 		},
 		Body: json.MarshalToStringNoError(pushRequest.Message.Extra),
 	}
-	var (
-		client *apns2.Client
-	)
 	notification := &apns2.Notification{
 		DeviceToken: strings.Join(pushRequest.DeviceTokens, ","),
 		ApnsID:      pushRequest.Message.BusinessId,
@@ -94,30 +109,14 @@ func (p *PushClient) buildRequest(ctx context.Context, pushRequest *setting.Push
 		Payload:     convert.Str2Byte(json.MarshalToStringNoError(pushPayload)),
 	}
 	if pushRequest.IsSandBox {
-		if p.clientBox == nil {
-			return nil, errcode.ErrIosBoxEmpty
-		}
-		client = p.clientBox
 		notification.Topic = p.topicBox
 	} else {
-		client = p.client
 		notification.Topic = p.topic
 	}
-
-	//证书过期判断，如果是过期证书则不推送，2023-03-04
-	if time.Now().UTC().Sub(client.Certificate.Leaf.NotAfter).Seconds() >= 0 {
-		if pushRequest.IsSandBox{
-			return nil,errcode.ErrIosBoxNotAfter
-		} else {
-			return nil,errcode.ErrIosNotAfter
-		}
-	}
-
 	res, err := client.PushWithContext(ctx, notification)
 	if err != nil {
 		return nil, err
 	}
-
 	return &ios_channel.PushMessageResponse{
 		StatusCode: res.StatusCode,
 		APNsId:     res.ApnsID,
