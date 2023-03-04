@@ -3,16 +3,17 @@ package cert_channel
 import (
 	"context"
 	"crypto/tls"
+	"fmt"
 	"gitee.com/ling-bin/go-push-sdk/push/common/convert"
 	"gitee.com/ling-bin/go-push-sdk/push/common/json"
 	"gitee.com/ling-bin/go-push-sdk/push/common/message"
 	"gitee.com/ling-bin/go-push-sdk/push/errcode"
 	"gitee.com/ling-bin/go-push-sdk/push/ios_channel"
 	"gitee.com/ling-bin/go-push-sdk/push/setting"
-	"strings"
-
 	"github.com/sideshow/apns2"
 	"github.com/sideshow/apns2/certificate"
+	"strings"
+	"time"
 )
 
 const (
@@ -42,14 +43,17 @@ func NewPushClient(conf *setting.ConfigIosCert) (setting.PushClientInterface, er
 		client: apns2.NewClient(cert).Production(),
 	}
 	client.topic = client.TopicFromCert(cert)
+
 	//测试地址
 	if len(conf.CertPathBox) != 0 {
+
 		certBox, err := certificate.FromP12File(conf.CertPathBox, conf.PasswordBox)
 		if err != nil {
 			return nil, err
 		}
 		client.clientBox = apns2.NewClient(certBox).Development()
 		client.topicBox = client.TopicFromCert(certBox)
+
 	}
 	return client, nil
 }
@@ -100,10 +104,17 @@ func (p *PushClient) buildRequest(ctx context.Context, pushRequest *setting.Push
 		client = p.client
 		notification.Topic = p.topic
 	}
+
+	//证书过期判断，如果是过期证书则不推送，2023-03-04
+	if time.Now().UTC().Sub(client.Certificate.Leaf.NotAfter).Seconds() >= 0 {
+		return nil, fmt.Errorf("ios Box [%v] tls NotAfter %v ", pushRequest.IsSandBox, client.Certificate.Leaf.NotAfter)
+	}
+
 	res, err := client.PushWithContext(ctx, notification)
 	if err != nil {
 		return nil, err
 	}
+
 	return &ios_channel.PushMessageResponse{
 		StatusCode: res.StatusCode,
 		APNsId:     res.ApnsID,

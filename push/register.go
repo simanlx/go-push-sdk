@@ -25,6 +25,7 @@ const (
 type RegisterClient struct {
 	cfg    interface{} //配置
 	client sync.Map    //连接客户端
+
 }
 
 func NewRegisterClient(configFilePath string) (*RegisterClient, error) {
@@ -55,6 +56,7 @@ func newRegisterClient(cfgJson string, obj interface{}) (*RegisterClient, error)
 	if err != nil {
 		return nil, errcode.ErrParseConfigFile
 	}
+
 	return &RegisterClient{
 		cfg: obj,
 	}, nil
@@ -109,14 +111,17 @@ func (r *RegisterClient) GetHUAWEIClient() (client setting.PushClientInterface, 
 	if ok {
 		return value.(*huawei_channel.PushClient), nil
 	}
+
 	if conf, ok := r.cfg.(*setting.ConfigHuawei); ok {
 		client, err = huawei_channel.NewPushClient(conf)
 	} else {
 		client, err = huawei_channel.NewPushClient(&r.cfg.(*setting.PushConfig).ConfigHuawei)
 	}
+
 	if err == nil {
 		r.client.Store(setting.HuaweiPlatform, client)
 	}
+
 	return client, err
 }
 
@@ -125,14 +130,17 @@ func (r *RegisterClient) GetMEIZUClient() (client setting.PushClientInterface, e
 	if ok {
 		return value.(*meizu_channel.PushClient), nil
 	}
+
 	if conf, ok := r.cfg.(*setting.ConfigMeizu); ok {
 		client, err = meizu_channel.NewPushClient(conf)
 	}else {
 		client, err = meizu_channel.NewPushClient(&r.cfg.(*setting.PushConfig).ConfigMeizu)
 	}
+
 	if err == nil {
 		r.client.Store(setting.MeizuPlatform, client)
 	}
+
 	return client, err
 }
 
@@ -141,14 +149,17 @@ func (r *RegisterClient) GetXIAOMIClient() (client setting.PushClientInterface, 
 	if ok {
 		return value.(*xiaomi_channel.PushClient), nil
 	}
+
 	if conf, ok := r.cfg.(*setting.ConfigXiaomi); ok {
 		client,err = xiaomi_channel.NewPushClient(conf)
 	}else {
 		client, err = xiaomi_channel.NewPushClient(&r.cfg.(*setting.PushConfig).ConfigXiaomi)
 	}
+
 	if err == nil {
 		r.client.Store(setting.XiaomiPlatform, client)
 	}
+
 	return client,err
 }
 
@@ -157,14 +168,17 @@ func (r *RegisterClient) GetOPPOClient() (client setting.PushClientInterface, er
 	if ok {
 		return value.(*oppo_channel.PushClient), nil
 	}
+
 	if conf, ok := r.cfg.(*setting.ConfigOppo); ok {
 		client, err = oppo_channel.NewPushClient(conf)
 	}else {
 		client, err = oppo_channel.NewPushClient(&r.cfg.(*setting.PushConfig).ConfigOppo)
 	}
+
 	if err == nil {
 		r.client.Store(setting.OppoPlatform, client)
 	}
+
 	return client,err
 }
 
@@ -173,11 +187,13 @@ func (r *RegisterClient) GetVIVOClient() (client setting.PushClientInterface, er
 	if ok {
 		return value.(*vivo_channel.PushClient), nil
 	}
+
 	if conf, ok := r.cfg.(*setting.ConfigVivo); ok {
 		client, err = vivo_channel.NewPushClient(conf)
 	}else {
 		client, err = vivo_channel.NewPushClient(&r.cfg.(*setting.PushConfig).ConfigVivo)
 	}
+
 	if err == nil {
 		r.client.Store(setting.VivoPlatform, client)
 	}
@@ -189,11 +205,13 @@ func (r *RegisterClient) GetIosCertClient() (client setting.PushClientInterface,
 	if ok {
 		return value.(*cert_channel.PushClient), nil
 	}
+
 	if conf, ok := r.cfg.(*setting.ConfigIosCert); ok {
 		client, err = cert_channel.NewPushClient(conf)
 	}else {
 		client, err = cert_channel.NewPushClient(&r.cfg.(*setting.PushConfig).ConfigIosCert)
 	}
+
 	if err == nil {
 		r.client.Store(setting.IosCertPlatform, client)
 	}
@@ -205,11 +223,14 @@ func (r *RegisterClient) GetIosTokenClient() (client setting.PushClientInterface
 	if ok {
 		return value.(*token_channel.PushClient), nil
 	}
+
+
 	if conf, ok := r.cfg.(*setting.ConfigIosToken); ok {
 		client, err = token_channel.NewPushClient(conf)
 	}else {
 		client, err = token_channel.NewPushClient(&r.cfg.(*setting.PushConfig).ConfigIosToken)
 	}
+
 	if err == nil {
 		r.client.Store(setting.IosTokenPlatform, client)
 	}

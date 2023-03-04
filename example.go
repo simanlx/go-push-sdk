@@ -8,6 +8,7 @@ import (
 	"gitee.com/ling-bin/go-push-sdk/push/huawei_channel"
 	"gitee.com/ling-bin/go-push-sdk/push/setting"
 	"github.com/google/uuid"
+	"time"
 )
 
 func main() {
@@ -120,7 +121,7 @@ func ios()  {
 	//data := []byte("88a53b2706dbc48cea69554bf3bae2bfc5fd582a6a9c97fd578626d621b63b99")
 	//has := md5.Sum(data)
 	//md5str := fmt.Sprintf("%x", has)
-	//fmt.Println(md5str)
+	fmt.Println(time.Now().UTC())
 	register, err := push.NewRegisterClient("D:\\Project\\GoProject\\go-push-sdk\\setting.json")
 	if err != nil {
 		fmt.Printf("NewRegisterClient err: %v", err)
@@ -133,12 +134,12 @@ func ios()  {
 	}
 	_,_ =register.GetIosCertClient()
 	var deviceTokens = []string{
-		"da4d309d0d1153105442db4ff13e2ee678336632479f7ef32da377f072a70d81",
+		"f6a5d5d0d68e605a2f0cb775db55a022c3260cafb193d3b9db71437fc584d40e",
 	}
 	msg := &setting.PushMessageRequest{
 		AccessToken:  "",
 		DeviceTokens: deviceTokens,
-		IsSandBox:    true,
+		IsSandBox:    false,
 		Message: &setting.Message{
 			BusinessId: uuid.New().String(),
 			Title:      "待办任务提醒-Title",
