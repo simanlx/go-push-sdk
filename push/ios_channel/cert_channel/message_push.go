@@ -3,7 +3,6 @@ package cert_channel
 import (
 	"context"
 	"crypto/tls"
-	"fmt"
 	"gitee.com/ling-bin/go-push-sdk/push/common/convert"
 	"gitee.com/ling-bin/go-push-sdk/push/common/json"
 	"gitee.com/ling-bin/go-push-sdk/push/common/message"
@@ -107,7 +106,11 @@ func (p *PushClient) buildRequest(ctx context.Context, pushRequest *setting.Push
 
 	//证书过期判断，如果是过期证书则不推送，2023-03-04
 	if time.Now().UTC().Sub(client.Certificate.Leaf.NotAfter).Seconds() >= 0 {
-		return nil, fmt.Errorf("ios Box [%v] tls NotAfter %v ", pushRequest.IsSandBox, client.Certificate.Leaf.NotAfter)
+		if pushRequest.IsSandBox{
+			return nil,errcode.ErrIosBoxNotAfter
+		} else {
+			return nil,errcode.ErrIosBoxNotAfter
+		}
 	}
 
 	res, err := client.PushWithContext(ctx, notification)

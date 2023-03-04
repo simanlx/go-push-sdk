@@ -44,6 +44,8 @@ var (
 	ErrIosKeyIdEmpty           = fmt.Errorf(tempErr, "ios keyId Empty")
 	ErrIosSecretFileEmpty      = fmt.Errorf(tempErr, "ios secretFile Empty")
 	ErrIosBundleIdEmpty        = fmt.Errorf(tempErr, "ios bundleId Empty")
+	ErrIosBoxNotAfter          = fmt.Errorf(tempErr,"ios Box tls NotAfter")
+	ErrIosNotAfter             = fmt.Errorf(tempErr,"ios tls NotAfter")
 	ErrUnknownPlatform         = fmt.Errorf(tempErr, "unknown platform ")
 	ErrParseConfigFile         = fmt.Errorf(tempErr, "parse config file err")
 	ErrConfigEmpty             = fmt.Errorf(tempErr, "config file null")
