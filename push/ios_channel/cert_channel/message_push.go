@@ -109,7 +109,7 @@ func (p *PushClient) buildRequest(ctx context.Context, pushRequest *setting.Push
 		if pushRequest.IsSandBox{
 			return nil,errcode.ErrIosBoxNotAfter
 		} else {
-			return nil,errcode.ErrIosBoxNotAfter
+			return nil,errcode.ErrIosNotAfter
 		}
 	}
 
