@@ -15,6 +15,41 @@ import (
 	"time"
 )
 
+/*
+链接：http://events.jianshu.io/p/f4f016848a4e
+
+苹果APNS push推送错误定位/错误码
+Status code	Error string	Description
+400	BadCollapseId	The collapse identifier exceeds the maximum allowed size
+400	BadDeviceToken	The specified device token was bad. Verify that the request contains a valid token and that the token matches the environment.
+400	BadExpirationDate	The apns-expiration value is bad.
+400	BadMessageId	The apns-id value is bad.
+400	BadPriority	The apns-priority value is bad.
+400	BadTopic	The apns-topic was invalid.
+400	DeviceTokenNotForTopic	The device token does not match the specified topic.
+400	DuplicateHeaders	One or more headers were repeated.
+400	IdleTimeout	Idle time out.
+400	MissingDeviceToken	The device token is not specified in the request :path. Verify that the :path header contains the device token.
+400	MissingTopic	The apns-topic header of the request was not specified and was required. The apns-topic header is mandatory when the client is connected using a certificate that supports multiple topics.
+400	PayloadEmpty	The message payload was empty.
+400	TopicDisallowed	Pushing to this topic is not allowed.
+403	BadCertificate	The certificate was bad.
+403	BadCertificateEnvironment	The client certificate was for the wrong environment.
+403	ExpiredProviderToken	The provider token is stale and a new token should be generated.
+403	Forbidden	The specified action is not allowed.
+403	InvalidProviderToken	The provider token is not valid or the token signature could not be verified.
+403	MissingProviderToken	No provider certificate was used to connect to APNs and Authorization header was missing or no provider token was specified.
+404	BadPath	The request contained a bad :path value.
+405	MethodNotAllowed	The specified :method was not POST.
+410	Unregistered	The device token is inactive for the specified topic. Expected HTTP/2 status code is 410; see Table 8-4.
+413	PayloadTooLarge	The message payload was too large. See Creating the Remote Notification Payload for details on maximum payload size.
+429	TooManyProviderTokenUpdates	The provider token is being updated too often.
+429	TooManyRequests	Too many requests were made consecutively to the same device token.
+500	InternalServerError	An internal server error occurred.
+503	ServiceUnavailable	The service is unavailable.
+503	Shutdown	The server is shutting down.
+*/
+
 const (
 	deviceTokenMax = 100
 	deviceTokenMin = 1
